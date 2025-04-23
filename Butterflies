@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World of Butterflies</title>
+    <link rel="icon" href="ІКОНКА САЙТУ.png" type="image/png"> <!-- Додано favicon -->
+    <style>
+        body {
+            font-family: "Times New Roman", serif;
+            background-color: #8AA6A3;
+            color: #10403B;
+            margin: 0;
+            padding: 0;
+        }
+
+        body.dark-theme {
+            background-color: #121212;
+            color: #f5f5f5;
+        }
+
+        body.dark-theme .content,
+        body.dark-theme .card,
+        body.dark-theme .form-section,
+        body.dark-theme .modal-content {
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+        }
+
+        body.dark-theme .sidebar {
+            background-color: #2e2e2e;
+            color: #f5f5f5;
+        }
+
+        body.dark-theme nav,
+        body.dark-theme header,
+        body.dark-theme footer {
+            background-color: #0d3b3b;
+            color: #f5f5f5;
+        }
+
+        body.dark-theme nav ul li a {
+            color: #f5f5f5;
+        }
+
+        body.dark-theme .dropdown-content {
+            background-color: #333;
+            color: white;
+        }
+
+        header {
+            background: #127369;
+            color: white;
+            padding: 40px 10px 10px 10px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        nav {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        nav a {
+            color: #FFD700;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .sidebar {
+            width: 200px;
+            background: #127369;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            top: 100px;
+            left: 0;
+            box-sizing: border-box;
+        }
+
+        .right-sidebar {
+            width: 250px;
+            background: #10403B;
+            color: #ffffff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            top: 100px;
+            right: 0;
+            box-sizing: border-box;
+        }
+
+        .sidebar h3,
+        .right-sidebar h3 {
+            color: #FFD700;
+        }
+
+        .sidebar p,
+        .right-sidebar p {
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        .sidebar input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 10px 270px 10px 240px;
+            background: #8AA6A3;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #127369;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.2);
+        }
+
+        .info {
+            text-align: left;
+            padding: 10px;
+        }
+
+        ul {
+            list-style-type: square;
+        }
+
+        a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .butterfly-image {
+            width: 50px;
+            height: 50px;
+            margin-left: 10px;
+        }
+
+        .butterfly-images {
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .sidebar .social-links a {
+            display: block;
+            margin-top: 5px;
+        }
+
+        footer {
+            background-color: #127369;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 40px;
+        }
+
+        /* Стилі для адаптивної навігації */
+        .nav-container {
+            width: 100%;
+            background-color: transparent;
+            color: white;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            list-style: none;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links li {
+            position: relative;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #575757;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #333;
+            list-style: none;
+            padding: 1rem;
+            width: 200px;
+        }
+
+        .nav-links li:hover .dropdown-menu {
+            display: block;
+        }
+
+        .search-form input {
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: none;
+            margin-right: 1rem;
+        }
+
+        .burger-menu {
+            display: none;
+            cursor: pointer;
+        }
+
+        .burger-menu div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 5px;
+            transition: 0.3s;
+        }
+
+        /* Медіа-запити для адаптивності */
+        @media (max-width: 992px) {
+            .nav-menu {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #333;
+                padding: 1rem 0;
+            }
+
+            .nav-links li {
+                text-align: center;
+                padding: 1rem 0;
+            }
+
+            .nav-links li:hover .dropdown-menu {
+                position: static;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .burger-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links li a {
+                padding: 1rem;
+            }
+
+            .dropdown-menu {
+                position: static;
+                width: 100%;
+            }
+
+            .sidebar,
+            .right-sidebar {
+                display: none;
+            }
+
+            .container {
+                margin: 120px 20px;
+            }
+
+            img:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        World of Butterflies
+        <nav>
+            <a href="#rare">Rare</a>
+            <a href="#species1">Apatura iris</a>
+            <a href="#species2">Swallowtail</a>
+            <a href="https://en.wikipedia.org/wiki/Butterfly" target="_blank">About butterflies</a>
+        </nav>
+    </header>
+
+    <button id="themeToggle" style="float: right; background: #fff; color: #000; padding: 10px; margin-top: -10px; border-radius: 5px; cursor: pointer;">Змінити тему</button>
+
+    <div class="nav-container">
+        <nav class="nav-menu">
+            <div class="logo">Логотип</div>
+            <ul class="nav-links">
+                <li><a href="#">Головна</a></li>
+                <li><a href="#">Про нас</a></li>
+                <li><a href="#">Послуги</a></li>
+                <li>
+                    <a href="#">Контакти</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Підпункт 1</a></li>
+                        <li><a href="#">Підпункт 2</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <form class="search-form">
+                        <input type="text" placeholder="Пошук...">
+                    </form>
+                </li>
+            </ul>
+            <div class="burger-menu" onclick="toggleMenu()">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="sidebar">
+        <h3>Butterfly Effect Rule</h3>
+        <p><strong>Butterfly Effect:</strong> Small changes in one environment can lead to big consequences in another...</p>
+
+        <form action="#" method="get" style="margin-top: 20px;">
+            <label for="search">Search:</label>
+            <input type="text" id="search" name="q" placeholder="Search butterflies">
+        </form>
+
+        <div class="social-links" style="margin-top: 20px;">
+            <p>Follow us:</p>
+            <a href="https://facebook.com" target="_blank">Facebook</a>
+            <a href="https://instagram.com" target="_blank">Instagram</a>
+        </div>
+    </div>
+
+    <main class="container">
+        <h1>Butterflies – The Beauties of Nature</h1>
+        <div class="info">
+            
+            <p>Butterflies are among the most beautiful insects in the world. They amaze with their variety of colors and patterns. 
+                <span class="butterfly-images">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuKzkD8ytZFNVamhBvVDjBkIz2L5AtkfeADA&s" alt="Butterfly 1" class="butterfly-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU1fTlLDYmbvtJalhCvfsFh1FRpwMQbt4_NQ&s" alt="Butterfly 2" class="butterfly-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWtdotQNa-arOacsBc6mEt-As9gHau6R0nMJ9HM3BqOtcNwekfT8_kCWvX2KyFBvMLSxk&usqp=CAU" alt="Butterfly 3" class="butterfly-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLEJy1Nj9SBFSp-harkJDIlZeopGnMtsdpRA&s" alt="Butterfly 4" class="butterfly-image">
+                </span>
+            </p>
+
+            <h2 id="rare">Rare Butterflies</h2>
+            <p>Some butterflies are extremely rare and protected by law...</p>
+
+            <h2 id="species1">Apatura iris</h2>
+            <p>This butterfly is one of the most beautiful day butterflies...</p>
+
+            <h2 id="species2">Swallowtail (Papilio machaon)</h2>
+            <p>Swallowtail is one of the largest butterflies in Europe...</p>
+
+            <h2>Life Cycle</h2>
+            <p>Butterflies go through four life stages: egg, larva (caterpillar), pupa (chrysalis), and adult. Each stage plays a vital role in the butterfly’s development and survival.</p>
+
+            <h2>Behavior and Ecology</h2>
+            <p>Most butterflies are active during the day and are attracted to colorful flowers...</p>
+
+            <h2>Conservation</h2>
+            <p>Many butterfly species are threatened by habitat loss, pesticide use, and climate change...</p>
+
+            <h2>🦋 Endangered Butterfly Species</h2>
+            <p>Butterflies are not only beautiful and delicate creatures—they play a crucial role in pollination and maintaining healthy ecosystems. However, many butterfly species around the world are facing the threat of extinction due to habitat loss, climate change, pollution, and overuse of pesticides.</p>
+
+            <h3>🌍 Why Are Butterflies Disappearing?</h3>
+            <ul>
+                <li><strong>Habitat Destruction</strong> – Urbanization and deforestation are destroying meadows, forests, and wetlands where butterflies thrive.</li>
+                <li><strong>Climate Change</strong> – Shifting temperatures and weather patterns affect the life cycles and migration of many species.</li>
+                <li><strong>Pesticides and Pollution</strong> – Chemicals used in agriculture can be lethal to butterflies and their larvae.</li>
+                <li><strong>Invasive Species</strong> – Non-native plants and animals often disrupt natural ecosystems, affecting native butterflies.</li>
+            </ul>
+
+            <h3>🦋 Notable Endangered Butterfly Species</h3>
+            <ul>
+                <li><strong>Queen Alexandra's Birdwing (Ornithoptera alexandrae)</strong> – The largest butterfly in the world, native to Papua New Guinea, is critically endangered due to deforestation.</li>
+                <li><strong>Saint Francis' Satyr (Neonympha mitchellii francisci)</strong> – Found only in a few North Carolina wetlands, this species is one of the rarest in the U.S.</li>
+                <li><strong>Schaus’ Swallowtail (Papilio aristodemus ponceanus)</strong> – Native to Florida, its population has declined due to hurricanes and habitat destruction.</li>
+                <li><strong>Apollo Butterfly (Parnassius apollo)</strong> – Once common in Europe, it's now disappearing due to rising temperatures and tourism-related habitat loss.</li>
+            </ul>
+
+            <h3>🌱 How You Can Help</h3>
+            <ul>
+                <li><strong>Create Butterfly-Friendly Gardens</strong> – Plant native flowers and avoid using harmful chemicals.</li>
+                <li><strong>Support Conservation Efforts</strong> – Donate to or volunteer with organizations that protect butterfly habitats.</li>
+                <li><strong>Spread Awareness</strong> – Educate others about the importance of butterflies and the dangers they face.</li>
+            </ul>
+
+            <h2>🌙 Nighttime Wonders: Nocturnal Moths</h2>
+<p>When the sun goes down, a hidden world of winged beauty awakens. Nocturnal moths, often overshadowed by their daytime butterfly relatives, are just as fascinating—if not more so. These creatures play a vital role in pollination, serve as a food source for many animals, and are key indicators of environmental health.</p>
+
+<h3>🦋 What Are Nocturnal Moths?</h3>
+<ul>
+    <li>Feathery or comb-like antennae</li>
+    <li>Thicker, hairier bodies</li>
+    <li>More muted colors, often for camouflage</li>
+    <li>A tendency to rest with wings flat</li>
+</ul>
+
+<h3>🌌 Amazing Adaptations</h3>
+<ul>
+    <li><strong>Enhanced Night Vision</strong> – Their eyes are adapted to low light.</li>
+    <li><strong>Sensitive Antennae</strong> – Males can detect a female’s scent from miles away.</li>
+    <li><strong>Camouflage and Mimicry</strong> – Many moths resemble bark, leaves, or even snakes to avoid predators.</li>
+    <li><strong>Ultrasonic Hearing</strong> – Some moths can detect bat echolocation and take evasive action!</li>
+</ul>
+
+<h3>🌿 Ecological Importance</h3>
+<p>Moths are key pollinators, especially for night-blooming plants. Some orchids and cacti rely entirely on moths for reproduction. Their larvae (caterpillars) are also an important food source for birds and mammals.</p>
+
+<h3>✨ Notable Nocturnal Moths</h3>
+<ul>
+    <li><strong>Luna Moth (Actias luna)</strong> – With its pale green wings and long tails, it's a symbol of nighttime elegance in North America.</li>
+    <li><strong>Atlas Moth (Attacus atlas)</strong> – One of the world’s largest moths, native to Southeast Asia, with wings resembling snake heads.</li>
+    <li><strong>Hummingbird Hawk-Moth (Macroglossum stellatarum)</strong> – Active during twilight, it hovers like a hummingbird while feeding on nectar.</li>
+</ul>
+
+<h3>🌱 How to Attract Moths to Your Garden</h3>
+<ul>
+    <li>Plant native night-blooming flowers like evening primrose or jasmine.</li>
+    <li>Leave a porch light on occasionally—they're drawn to light!</li>
+    <li>Avoid using pesticides and herbicides that can harm moth populations.</li>
+</ul>
+
+
+            <h2>Did You Know?</h2>
+            <p>The butterfly stroke, known for its complexity and physical demands...</p>
+        </div>
+    </main>
+
+    <div class="right-sidebar">
+        <h3>Feeding Your Adult Butterflies</h3>
+        <p>To feed a butterfly, prepare a sugar water solution...</p>
+        <h3><a href="file:///E:/%D0%A3%D0%BD%D1%96%D0%B2%D0%B5%D1%80/Sasha/%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F/Untitled-5.html" target="_blank">Butterfly Shop</a></h3>
+    </div>
+
+    <footer>
+        &copy; 2025 World of Butterflies | All rights reserved
+    </footer>
+
+    <script>
+        const toggleBtn = document.getElementById('themeToggle');
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+        });
+
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
