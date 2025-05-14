@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Користувачі API</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background-color: #10403B;
+            color: #8AA6A3;
+        }
+        h1 {
+            color: #127369;
+        }
+        #loader {
+            display: none;
+            color: #127369;
+        }
+        .user {
+            margin-bottom: 10px;
+            background-color: #127369;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+        }
+        #pagination button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            background-color: #8AA6A3;
+            border: none;
+            border-radius: 4px;
+            color: #10403B;
+            cursor: pointer;
+        }
+        #pagination button:disabled {
+            background-color: #127369;
+            color: white;
+        }
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #127369;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #8AA6A3;
+            color: #10403B;
+        }
+        input[type="text"]::placeholder {
+            color: #10403B;
+        }
+    </style>
+</head>
+<body>
+    <h1>Список користувачів</h1>
+
+    <input type="text" id="search" placeholder="Пошук за іменем..." />
+    <div id="loader">Завантаження...</div>
+    <div id="data-container"></div>
+    <div id="pagination"></div>
+
+    <script>
+        const API_URL = 'https://jsonplaceholder.typicode.com/users';
+        const loader = document.getElementById('loader');
+        const container = document.getElementById('data-container');
+        const searchInput = document.getElementById('search');
+        const pagination = document.getElementById('pagination');
+        const pageSize = 3;
+        let users = [];
+        let currentPage = 1;
+
+        async function fetchData() {
+            loader.style.display = 'block';
+            try {
+                const cached = localStorage.getItem('users');
+                if (cached) {
+                    users = JSON.parse(cached);
+                } else {
+                    const response = await fetch(API_URL);
+                    if (!response.ok) throw new Error('Помилка при отриманні даних');
+                    users = await response.json();
+                    localStorage.setItem('users', JSON.stringify(users));
+                }
+                displayData();
+            } catch (error) {
+                container.innerHTML = `<p style="color:red;">${error.message}</p>`;
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+
+        function displayData() {
+            const query = searchInput.value.toLowerCase();
+            const filtered = users.filter(user => user.name.toLowerCase().includes(query));
+            const totalPages = Math.ceil(filtered.length / pageSize);
+            const start = (currentPage - 1) * pageSize;
+            const visible = filtered.slice(start, start + pageSize);
+
+            container.innerHTML = visible.map(user =>
+                `<div class="user">
+                    <strong>${user.name}</strong><br>
+                    <em>${user.email}</em><br>
+                    <span>${user.address.city}</span>
+                </div>`
+            ).join('');
+
+            pagination.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.onclick = () => {
+                    currentPage = i;
+                    displayData();
+                };
+                if (i === currentPage) btn.disabled = true;
+                pagination.appendChild(btn);
+            }
+        }
+
+        searchInput.addEventListener('input', () => {
+            currentPage = 1;
+            displayData();
+        });
+
+        fetchData();
+    </script>
+</body>
+</html>
