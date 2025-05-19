@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Динамічне меню</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .main-menu {
+            background: #333;
+            color: white;
+            position: relative;
+        }
+
+        .burger-menu {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 1rem;
+        }
+
+        .burger-menu span,
+        .burger-menu span::before,
+        .burger-menu span::after {
+            display: block;
+            background: white;
+            height: 3px;
+            width: 25px;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .burger-menu span::before,
+        .burger-menu span::after {
+            content: "";
+            position: absolute;
+            left: 0;
+        }
+
+        .burger-menu span::before {
+            top: -8px;
+        }
+
+        .burger-menu span::after {
+            top: 8px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: row;
+        }
+
+        li {
+            position: relative;
+        }
+
+        li a {
+            display: block;
+            padding: 1rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        li a.active {
+            background: #555;
+        }
+
+        .submenu {
+            display: none;
+            position: absolute;
+            background: #444;
+            top: 100%;
+            left: 0;
+            min-width: 200px;
+        }
+
+        li:hover > .submenu {
+            display: block;
+        }
+
+        .submenu li {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .burger-menu {
+                display: block;
+            }
+
+            ul {
+                display: none;
+                flex-direction: column;
+                background: #333;
+            }
+
+            ul.active {
+                display: flex;
+            }
+
+            li:hover > .submenu {
+                display: none;
+            }
+
+            li.open > .submenu {
+                display: block;
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+<nav class="main-menu">
+    <button class="burger-menu" aria-label="Меню">
+        <span></span>
+    </button>
+    <ul id="menuContainer" tabindex="0">
+        <!-- Пункти меню будуть додані динамічно -->
+    </ul>
+</nav>
+
+<script>
+    const menuData = {
+        items: [
+            {
+                title: "Головна",
+                link: "/",
+                submenu: []
+            },
+            {
+                title: "Про нас",
+                link: "/about",
+                submenu: []
+            },
+            {
+                title: "Послуги",
+                link: "#",
+                submenu: [
+                    {
+                        title: "Розробка",
+                        link: "/services/dev",
+                        submenu: [
+                            { title: "Веб", link: "/services/dev/web" },
+                            { title: "Мобільна", link: "/services/dev/mobile" }
+                        ]
+                    },
+                    {
+                        title: "Консалтинг",
+                        link: "/services/consulting",
+                        submenu: []
+                    }
+                ]
+            },
+            {
+                title: "Портфоліо",
+                link: "/portfolio",
+                submenu: []
+            },
+            {
+                title: "Контакти",
+                link: "/contacts",
+                submenu: []
+            }
+        ]
+    };
+
+    const menuContainer = document.getElementById('menuContainer');
+    const burgerMenu = document.querySelector('.burger-menu');
+
+    function createMenu(items, isSub = false) {
+        const ul = document.createElement('ul');
+        if (isSub) ul.classList.add('submenu');
+
+        items.forEach(item => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = item.link;
+            a.textContent = item.title;
+
+            a.addEventListener('click', (e) => {
+                document.querySelectorAll('a').forEach(el => el.classList.remove('active'));
+                e.target.classList.add('active');
+                localStorage.setItem('activeMenu', item.link);
+            });
+
+            li.appendChild(a);
+
+            if (item.submenu && item.submenu.length > 0) {
+                li.appendChild(createMenu(item.submenu, true));
+                li.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768) {
+                        e.stopPropagation();
+                        li.classList.toggle('open');
+                    }
+                });
+            }
+
+            ul.appendChild(li);
+        });
+
+        return ul;
+    }
+
+    function initMenu() {
+        const menu = createMenu(menuData.items);
+        menuContainer.appendChild(menu);
+
+        const activeLink = localStorage.getItem('activeMenu');
+        if (activeLink) {
+            const linkElement = document.querySelector(`a[href='${activeLink}']`);
+            if (linkElement) linkElement.classList.add('active');
+        }
+    }
+
+    burgerMenu.addEventListener('click', () => {
+        menuContainer.classList.toggle('active');
+    });
+
+    document.addEventListener('DOMContentLoaded', initMenu);
+</script>
+</body>
+</html>

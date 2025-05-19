@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Слайдер зображень</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .slider-container {
+      position: relative;
+      overflow: hidden;
+      max-width: 800px;
+      margin: auto;
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      width: 100%;
+    }
+    .slide {
+      min-width: 100%;
+      height: 400px;
+      background-size: cover;
+      background-position: center;
+    }
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      padding: 1rem;
+      cursor: pointer;
+      z-index: 1;
+    }
+    .prev { left: 0; }
+    .next { right: 0; }
+    .dots {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin: 0 5px;
+      background: gray;
+      cursor: pointer;
+    }
+    .dot.active {
+      background: black;
+    }
+    .controls {
+      text-align: center;
+      margin-top: 10px;
+    }
+    @media (max-width: 600px) {
+      .slide { height: 250px; }
+    }
+  </style>
+</head>
+<body>
+<div class="slider-container">
+  <div class="slides">
+    <div class="slide" style="background-image: url('https://via.placeholder.com/800x400?text=1')"></div>
+    <div class="slide" style="background-image: url('https://via.placeholder.com/800x400?text=2')"></div>
+    <div class="slide" style="background-image: url('https://via.placeholder.com/800x400?text=3')"></div>
+  </div>
+  <button class="prev">Назад</button>
+  <button class="next">Вперед</button>
+  <div class="dots"></div>
+  <div class="controls">
+    <span class="counter">1 / 3</span>
+    <button class="toggle-play">Пауза</button>
+  </div>
+</div>
+
+<script>
+  class ImageSlider {
+    constructor() {
+      this.slides = document.querySelectorAll('.slide');
+      this.dotsContainer = document.querySelector('.dots');
+      this.prevBtn = document.querySelector('.prev');
+      this.nextBtn = document.querySelector('.next');
+      this.counter = document.querySelector('.counter');
+      this.toggleBtn = document.querySelector('.toggle-play');
+      this.slidesWrapper = document.querySelector('.slides');
+      this.currentSlide = 0;
+      this.interval = null;
+      this.autoplay = true;
+      this.init();
+    }
+
+    init() {
+      this.createDots();
+      this.updateSlider();
+      this.prevBtn.addEventListener('click', () => this.prevSlide());
+      this.nextBtn.addEventListener('click', () => this.nextSlide());
+      this.toggleBtn.addEventListener('click', () => this.toggleAutoplay());
+      this.slidesWrapper.addEventListener('touchstart', e => this.startX = e.touches[0].clientX);
+      this.slidesWrapper.addEventListener('touchend', e => this.handleSwipe(e));
+      if (this.autoplay) this.startAutoplay();
+    }
+
+    createDots() {
+      this.dotsContainer.innerHTML = '';
+      this.slides.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        dot.addEventListener('click', () => {
+          this.currentSlide = index;
+          this.updateSlider();
+        });
+        this.dotsContainer.appendChild(dot);
+      });
+    }
+
+    updateSlider() {
+      const offset = -this.currentSlide * 100;
+      this.slidesWrapper.style.transform = `translateX(${offset}%)`;
+      this.counter.textContent = `${this.currentSlide + 1} / ${this.slides.length}`;
+      document.querySelectorAll('.dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === this.currentSlide);
+      });
+    }
+
+    nextSlide() {
+      this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+      this.updateSlider();
+    }
+
+    prevSlide() {
+      this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+      this.updateSlider();
+    }
+
+    handleSwipe(e) {
+      const diff = e.changedTouches[0].clientX - this.startX;
+      if (diff > 50) this.prevSlide();
+      if (diff < -50) this.nextSlide();
+    }
+
+    startAutoplay() {
+      this.interval = setInterval(() => this.nextSlide(), 3000);
+      this.toggleBtn.textContent = 'Пауза';
+    }
+
+    stopAutoplay() {
+      clearInterval(this.interval);
+      this.toggleBtn.textContent = 'Старт';
+    }
+
+    toggleAutoplay() {
+      this.autoplay = !this.autoplay;
+      if (this.autoplay) {
+        this.startAutoplay();
+      } else {
+        this.stopAutoplay();
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => new ImageSlider());
+</script>
+</body>
+</html>
