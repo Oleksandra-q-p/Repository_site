@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Веб-шрифти та типографіка</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Локальний шрифт */
+    @font-face {
+      font-family: 'LocalFont';
+      src: url('fonts/LocalFont.woff2') format('woff2'),
+           url('fonts/LocalFont.woff') format('woff');
+      font-display: swap;
+    }
+
+    /* Базові кольори */
+    :root {
+      --dark-green: #10403B;
+      --gray-green: #4C5958;
+      --soft-teal: #8AA6A3;
+    }
+
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      line-height: 1.6;
+      margin: 2rem;
+      color: var(--gray-green);
+      background-color: #f9f9f9;
+    }
+
+    h1, h2, h3 {
+      font-family: 'LocalFont', Georgia, serif;
+      font-weight: bold;
+      color: var(--dark-green);
+    }
+
+    h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+    h2 { font-size: 2rem; margin-top: 2rem; }
+    h3 { font-size: 1.5rem; }
+
+    p {
+      font-size: 1rem;
+      margin: 1rem 0;
+    }
+
+    blockquote {
+      border-left: 4px solid var(--soft-teal);
+      padding-left: 1rem;
+      font-style: italic;
+      color: var(--soft-teal);
+      background-color: #f0f0f0;
+    }
+
+    ul, ol {
+      padding-left: 2rem;
+      margin: 1rem 0;
+    }
+
+    mark {
+      background-color: var(--soft-teal);
+      color: white;
+      padding: 0.1em 0.3em;
+      border-radius: 0.2em;
+    }
+
+    @media (min-width: 768px) {
+      body {
+        font-size: 1.125rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Типографіка у вебі</h1>
+
+  <h2>Основний текст</h2>
+  <p>Цей параграф демонструє, як виглядає основний текст на сторінці. Шрифт <mark>Roboto</mark> забезпечує хорошу читабельність для довгих текстів.</p>
+
+  <h2>Цитата</h2>
+  <blockquote>Типографіка — це мистецтво і техніка розміщення шрифтів для покращення читабельності та візуального вигляду тексту.</blockquote>
+
+  <h2>Списки</h2>
+  <h3>Маркерований список:</h3>
+  <ul>
+    <li>Підключення шрифтів</li>
+    <li>Оптимізація</li>
+    <li>Читабельність</li>
+  </ul>
+
+  <h3>Нумерований список:</h3>
+  <ol>
+    <li>Вибрати шрифти</li>
+    <li>Підключити</li>
+    <li>Тестувати читабельність</li>
+  </ol>
+
+  <h2>Виділений текст</h2>
+  <p>Зверніть увагу на <mark>важливі моменти</mark>, які слід запам’ятати під час розробки інтерфейсу.</p>
+
+</body>
+</html>
