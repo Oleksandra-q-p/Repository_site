@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Оптимізація продуктивності</title>
+
+  <!-- Вбудований критичний CSS -->
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background: #10403B;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    h1 {
+      color: #8AA6A3;
+    }
+    p {
+      color: #4C5958;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+      border: 4px solid #8AA6A3;
+    }
+    #lazyContent {
+      background-color: #f0f0f0;
+      border-left: 5px solid #4C5958;
+      padding: 1em;
+      margin-top: 1em;
+    }
+  </style>
+
+  <!-- Підключення Google Fonts з оптимізацією -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+
+  <!-- Відкладене завантаження основного CSS -->
+  <link rel="preload" href="styles.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="styles.min.css" /></noscript>
+
+  <!-- Асинхронне завантаження JS -->
+  <script src="libs.min.js" defer></script>
+  <script src="app.min.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Оптимізована сторінка</h1>
+    <p>Продуктивність як пріоритет</p>
+  </header>
+
+  <main>
+    <!-- Ліниве завантаження зображення -->
+    <img
+      src="placeholder.jpg"
+      data-src="https://images.pexels.com/photos/414171/pexels-photo-414171.jpeg?auto=compress&cs=tinysrgb&w=800"
+      loading="lazy"
+      alt="Краєвид озера"
+      width="800"
+      height="600"
+    />
+
+    <!-- Контент для лінивого завантаження через JS -->
+    <section id="lazyContent">
+      <!-- JavaScript вставить контент сюди -->
+    </section>
+  </main>
+
+  <!-- Inline скрипт для лінивого завантаження -->
+  <script>
+    // Lazy-load зображення з data-src
+    document.addEventListener("DOMContentLoaded", function () {
+      const img = document.querySelector('img[data-src]');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const lazyImage = entry.target;
+              lazyImage.src = lazyImage.dataset.src;
+              observer.unobserve(lazyImage);
+            }
+          });
+        });
+        observer.observe(img);
+      } else {
+        img.src = img.dataset.src;
+      }
+
+      // Відкладене завантаження контенту
+      const lazyContent = document.getElementById("lazyContent");
+      setTimeout(() => {
+        lazyContent.innerHTML = "<p>Цей контент завантажено після рендеру.</p>";
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
