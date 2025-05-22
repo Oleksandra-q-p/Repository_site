@@ -5,21 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Оптимізація зображень</title>
   <style>
+    :root {
+      --main-color: #10403B;
+      --accent-color: #8AA6A3;
+      --text-color: #4C5958;
+    }
+
     body {
       font-family: sans-serif;
       padding: 2rem;
-      background-color: #f7f7f7;
+      background-color: var(--accent-color);
+      color: var(--text-color);
     }
+
+    h1, h2 {
+      color: var(--main-color);
+    }
+
     img {
       max-width: 100%;
       height: auto;
       display: block;
       margin-bottom: 2rem;
+      border: 2px solid var(--main-color);
+      border-radius: 8px;
     }
+
     .icon {
       width: 48px;
       height: 48px;
-      fill: #10403B;
+      fill: var(--main-color);
     }
   </style>
 </head>
