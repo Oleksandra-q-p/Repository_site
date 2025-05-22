@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Оптимізація зображень</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background-color: #f7f7f7;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 2rem;
+    }
+    .icon {
+      width: 48px;
+      height: 48px;
+      fill: #10403B;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Адаптивне зображення (WebP + fallback)</h1>
+  <picture>
+    <source
+      srcset="https://images.unsplash.com/photo-1602526213894-d04d78b0f2d5?w=1920 1920w,
+              https://images.unsplash.com/photo-1602526213894-d04d78b0f2d5?w=1280 1280w,
+              https://images.unsplash.com/photo-1602526213894-d04d78b0f2d5?w=640 640w"
+      sizes="(max-width: 640px) 100vw,
+             (max-width: 1280px) 50vw,
+             1920px"
+      type="image/webp">
+    <img
+      src="https://images.unsplash.com/photo-1602526213894-d04d78b0f2d5?w=1280"
+      alt="Адаптивне зображення"
+      loading="lazy"
+    >
+  </picture>
+
+  <h2>Зображення з прозорістю (PNG)</h2>
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1024px-React-icon.svg.png"
+    alt="Прозоре зображення"
+    loading="lazy"
+    width="200"
+  >
+
+  <h2>Векторне зображення (SVG)</h2>
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Bitmap_VS_SVG.svg"
+    alt="Векторне зображення"
+    loading="lazy"
+  >
+
+  <h2>SVG sprite іконка</h2>
+  <!-- Inline SVG sprite -->
+  <svg style="display: none;">
+    <symbol id="icon-star" viewBox="0 0 24 24">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/>
+    </symbol>
+  </svg>
+
+  <!-- Використання іконки з sprite -->
+  <svg class="icon">
+    <use xlink:href="#icon-star"></use>
+  </svg>
+
+</body>
+</html>
